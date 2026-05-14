@@ -1,0 +1,63 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}用户管理 - ThinkPHP Python Web{% endblock %}
+
+{% block page_title %}用户管理{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2><i class="fas fa-users"></i> 用户列表</h2>
+        {% if current_user.role.name in ['admin', 'manager'] %}
+        <a href="{{ url_for('user.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> 新增用户
+        </a>
+        {% endif %}
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>角色</th>
+                <th>状态</th>
+                <th>注册时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email or '-' }}</td>
+                <td>
+                    <span class="badge badge-primary">{{ user.role.name }}</span>
+                </td>
+                <td>
+                    {% if user.is_active %}
+                    <span class="badge badge-success">正常</span>
+                    {% else %}
+                    <span class="badge badge-warning">禁用</span>
+                    {% endif %}
+                </td>
+                <td>{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else '-' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('user.edit', id=user.id) }}" class="btn btn-primary" style="padding: 4px 8px; font-size: 0.85rem;">
+                        <i class="fas fa-edit"></i> 编辑
+                    </a>
+                    {% if current_user.role.name == 'admin' and user.id != current_user.id %}
+                    <a href="{{ url_for('user.delete', id=user.id) }}" class="btn btn-danger" style="padding: 4px 8px; font-size: 0.85rem;" 
+                       onclick="return confirm('确定要删除该用户吗？')">
+                        <i class="fas fa-trash"></i> 删除
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

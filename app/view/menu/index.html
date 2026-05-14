@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}菜单管理 - ThinkPHP Python Web{% endblock %}
+
+{% block page_title %}菜单管理{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2><i class="fas fa-bars"></i> 菜单列表</h2>
+        <a href="{{ url_for('menu.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> 新增菜单
+        </a>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>菜单标识</th>
+                <th>菜单名称</th>
+                <th>URL</th>
+                <th>父菜单</th>
+                <th>排序</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for menu in all_menus %}
+            <tr style="{% if menu.parent_id %}background: #f8f9fa;{% endif %}">
+                <td>{{ menu.id }}</td>
+                <td>
+                    <span class="badge badge-primary">{{ menu.name }}</span>
+                </td>
+                <td>
+                    {% if menu.parent_id %}&nbsp;&nbsp;&nbsp;└─ {% endif %}
+                    <i class="fas {{ menu.icon }}"></i> {{ menu.title }}
+                </td>
+                <td>{{ menu.url or '-' }}</td>
+                <td>
+                    {% if menu.parent_id %}
+                        {% for p in all_menus if p.id == menu.parent_id %}{{ p.title }}{% endfor %}
+                    {% else %}
+                        <span style="color: #999;">顶级菜单</span>
+                    {% endif %}
+                </td>
+                <td>{{ menu.sort_order }}</td>
+                <td>
+                    {% if menu.is_visible %}
+                    <span class="badge badge-success">显示</span>
+                    {% else %}
+                    <span class="badge badge-warning">隐藏</span>
+                    {% endif %}
+                </td>
+                <td class="actions">
+                    <a href="{{ url_for('menu.edit', id=menu.id) }}" class="btn btn-primary" style="padding: 4px 8px; font-size: 0.85rem;">
+                        <i class="fas fa-edit"></i> 编辑
+                    </a>
+                    {% if not menu.children %}
+                    <a href="{{ url_for('menu.delete', id=menu.id) }}" class="btn btn-danger" style="padding: 4px 8px; font-size: 0.85rem;" 
+                       onclick="return confirm('确定要删除该菜单吗？')">
+                        <i class="fas fa-trash"></i> 删除
+                    </a>
+                    {% else %}
+                    <span style="color: #999; font-size: 0.85rem;">有子菜单</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

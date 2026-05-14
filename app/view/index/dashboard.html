@@ -1,0 +1,88 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}仪表盘 - ThinkPHP Python Web{% endblock %}
+
+{% block page_title %}仪表盘{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h3 style="font-size: 0.9rem; opacity: 0.9;">欢迎回来</h3>
+        <p style="font-size: 1.5rem; margin: 10px 0;">{{ current_user.username }}</p>
+        <span class="badge" style="background: rgba(255,255,255,0.2);">{{ current_user.role.description }}</span>
+    </div>
+    
+    <div class="card">
+        <h3 style="color: #667eea;"><i class="fas fa-user-tag"></i> 我的角色</h3>
+        <p style="font-size: 1.5rem; margin: 10px 0;">{{ current_user.role.name }}</p>
+        <p style="color: #666; font-size: 0.9rem;">{{ current_user.role.description }}</p>
+    </div>
+    
+    <div class="card">
+        <h3 style="color: #28a745;"><i class="fas fa-calendar"></i> 注册时间</h3>
+        <p style="font-size: 1.2rem; margin: 10px 0;">{{ current_user.created_at.strftime('%Y-%m-%d') if current_user.created_at else '未知' }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-chart-line"></i> 系统概览</h2>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <i class="fas fa-users" style="font-size: 2.5rem; color: #667eea; margin-bottom: 10px;"></i>
+            <h4 style="margin: 10px 0;">用户管理</h4>
+            {% if current_user.role.name in ['admin', 'manager'] %}
+            <a href="{{ url_for('user.index') }}" class="btn btn-primary">进入管理</a>
+            {% else %}
+            <p style="color: #999;">无权限</p>
+            {% endif %}
+        </div>
+        
+        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <i class="fas fa-user-shield" style="font-size: 2.5rem; color: #28a745; margin-bottom: 10px;"></i>
+            <h4 style="margin: 10px 0;">角色管理</h4>
+            {% if current_user.role.name == 'admin' %}
+            <a href="{{ url_for('role.index') }}" class="btn btn-primary">进入管理</a>
+            {% else %}
+            <p style="color: #999;">无权限</p>
+            {% endif %}
+        </div>
+        
+        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <i class="fas fa-bars" style="font-size: 2.5rem; color: #ffc107; margin-bottom: 10px;"></i>
+            <h4 style="margin: 10px 0;">菜单管理</h4>
+            {% if current_user.role.name == 'admin' %}
+            <a href="{{ url_for('menu.index') }}" class="btn btn-primary">进入管理</a>
+            {% else %}
+            <p style="color: #999;">无权限</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-info-circle"></i> 系统信息</h2>
+    </div>
+    <table style="max-width: 600px;">
+        <tr>
+            <td style="font-weight: 500;">系统名称</td>
+            <td>ThinkPHP Python Web</td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">框架</td>
+            <td>Flask 3.0</td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">数据库</td>
+            <td>SQLite</td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">权限模型</td>
+            <td>RBAC (基于角色的访问控制)</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
