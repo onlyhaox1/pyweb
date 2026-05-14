@@ -1,0 +1,62 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}创建菜单 - ThinkPHP Python Web{% endblock %}
+
+{% block page_title %}创建菜单{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px;">
+    <div class="card-header">
+        <h2><i class="fas fa-bars"></i> 新增菜单</h2>
+    </div>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">菜单标识 *</label>
+            <input type="text" id="name" name="name" class="form-control" required placeholder="例如：user_management">
+            <small style="color: #666;">英文字母、数字和下划线组成，用于权限判断</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="title">菜单名称 *</label>
+            <input type="text" id="title" name="title" class="form-control" required placeholder="例如：用户管理">
+        </div>
+        
+        <div class="form-group">
+            <label for="url">URL 地址</label>
+            <input type="text" id="url" name="url" class="form-control" placeholder="例如：/user/">
+        </div>
+        
+        <div class="form-group">
+            <label for="parent_id">父菜单</label>
+            <select id="parent_id" name="parent_id" class="form-control">
+                <option value="">无（顶级菜单）</option>
+                {% for menu in parent_menus %}
+                <option value="{{ menu.id }}">{{ menu.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="icon">图标</label>
+            <input type="text" id="icon" name="icon" class="form-control" value="fa-circle" placeholder="Font Awesome 图标类名">
+            <small style="color: #666;">使用 Font Awesome 6 图标，如：fa-users, fa-cogs</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="sort_order">排序</label>
+            <input type="number" id="sort_order" name="sort_order" class="form-control" value="0">
+            <small style="color: #666;">数字越小越靠前</small>
+        </div>
+        
+        <div class="form-group" style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> 保存
+            </button>
+            <a href="{{ url_for('menu.index') }}" class="btn" style="background: #6c757d; color: white;">
+                <i class="fas fa-times"></i> 取消
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

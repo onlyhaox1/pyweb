@@ -1,0 +1,18 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}404 页面未找到 - ThinkPHP Python Web{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px;">
+    <h1 style="font-size: 5rem; color: #667eea; margin-bottom: 20px;">
+        <i class="fas fa-search"></i> 404
+    </h1>
+    <h2 style="color: #333; margin-bottom: 20px;">页面未找到</h2>
+    <p style="color: #666; font-size: 1.1rem; margin-bottom: 30px;">
+        您访问的页面不存在或已被移除
+    </p>
+    <a href="{{ url_for('index.dashboard') }}" class="btn btn-primary">
+        <i class="fas fa-home"></i> 返回首页
+    </a>
+</div>
+{% endblock %}

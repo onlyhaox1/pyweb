@@ -1,0 +1,64 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}个人中心 - ThinkPHP Python Web{% endblock %}
+
+{% block page_title %}个人中心{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-user-circle"></i> 个人信息</h2>
+    </div>
+    
+    <table style="max-width: 600px;">
+        <tr>
+            <td style="font-weight: 500; width: 150px;">用户名</td>
+            <td>{{ current_user.username }}</td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">邮箱</td>
+            <td>{{ current_user.email or '未设置' }}</td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">角色</td>
+            <td>
+                <span class="badge badge-primary">{{ current_user.role.name }}</span>
+                <span style="margin-left: 10px; color: #666;">{{ current_user.role.description }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">账户状态</td>
+            <td>
+                {% if current_user.is_active %}
+                <span class="badge badge-success">正常</span>
+                {% else %}
+                <span class="badge badge-warning">已禁用</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: 500;">注册时间</td>
+            <td>{{ current_user.created_at.strftime('%Y-%m-%d %H:%M:%S') if current_user.created_at else '未知' }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-key"></i> 我的权限</h2>
+    </div>
+    
+    <p style="margin-bottom: 15px; color: #666;">
+        您当前可以访问以下菜单：
+    </p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
+        {% for menu in current_menus %}
+        <div style="padding: 10px 15px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #667eea;">
+            <i class="fas {{ menu.icon }}" style="color: #667eea; margin-right: 8px;"></i>
+            {{ menu.title }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}首页 - ThinkPHP Python Web{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px;">
+    <h1 style="font-size: 3rem; color: #667eea; margin-bottom: 20px;">
+        <i class="fas fa-cube"></i> ThinkPHP Python Web
+    </h1>
+    <p style="font-size: 1.2rem; color: #666; margin-bottom: 40px;">
+        基于 Flask 构建的多角色权限管理系统
+    </p>
+    
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary" style="padding: 15px 40px; font-size: 1.1rem;">
+            <i class="fas fa-sign-in-alt"></i> 登录系统
+        </a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="padding: 15px 40px; font-size: 1.1rem; background: #28a745;">
+            <i class="fas fa-user-plus"></i> 免费注册
+        </a>
+    </div>
+    
+    <div style="margin-top: 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1000px; margin-left: auto; margin-right: auto;">
+        <div class="card" style="text-align: left;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">
+                <i class="fas fa-users-cog"></i> 多角色管理
+            </h3>
+            <p style="color: #666; line-height: 1.6;">
+                支持超级管理员、普通管理员、普通用户等多种角色，可自定义角色和权限分配。
+            </p>
+        </div>
+        
+        <div class="card" style="text-align: left;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">
+                <i class="fas fa-bars"></i> 菜单权限控制
+            </h3>
+            <p style="color: #666; line-height: 1.6;">
+                基于 RBAC 模型的菜单权限管理，不同角色看到不同的菜单和功能。
+            </p>
+        </div>
+        
+        <div class="card" style="text-align: left;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">
+                <i class="fas fa-database"></i> SQLite 数据库
+            </h3>
+            <p style="color: #666; line-height: 1.6;">
+                使用轻量级 SQLite 数据库，无需额外配置，开箱即用。
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
